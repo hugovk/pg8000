@@ -1,6 +1,6 @@
 name: pg8000
 
-on: [push]
+on: [push, pull_request, workflow_dispatch]
 
 permissions: read-all
 
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         postgresql-version: [15, 14, 13, 12, 11]
 
     container:
@@ -33,7 +33,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -80,7 +80,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -127,7 +127,7 @@ jobs:
           psql -c "SELECT pg_reload_conf()"
 
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -161,7 +161,7 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
